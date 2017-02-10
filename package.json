@@ -14,12 +14,17 @@
   "license": "ISC",
   "devDependencies": {
     "browserify": "^14.0.0",
+    "del": "^2.2.2",
     "globby": "^6.1.0",
     "gulp": "^3.9.1",
     "gulp-notify": "^3.0.0",
     "gulp-sequence": "^0.4.6",
     "gulp-stylus": "^2.6.0",
     "gulp-util": "^3.0.8",
+    "merge2": "^1.0.3",
+    "path": "^0.12.7",
+    "throttle-debounce": "^1.0.1",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
