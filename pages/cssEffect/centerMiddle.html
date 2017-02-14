@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    .test{
+      text-align: center;
+      line-height: 100px;
+    }
+
+    .parent-2-a{
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;}
+    .child-2-a{
+        display: inline-block;}
+    .parent-2-b{
+        text-align: center;
+        line-height: 100px;
+        font-size: 0;}
+    .child-2-b{
+        vertical-align: middle;}
+    .parent-3{
+        display:table-cell;
+        vertical-align: middle;}
+    .child-3{
+        display: table;
+        margin: 0 auto;}
+    .parent-4-a{
+        position: relative;}
+    .child-4-a{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 50px;
+        width: 80px;
+        margin: auto;}
+    .parent-4-b{
+        position: relative;}
+    .child-4-b{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);}
+    .parent-4-c{
+        position: relative;}
+    .child-4-c{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 60px;
+        margin-left: -40px;
+        margin-top: -30px;}
+    .parent-5-a{
+        display: flex;}
+    .child-5-a{
+        margin: auto;}
+    .parent-5-b{
+        display: flex;
+        justify-content: center;
+        align-items: center;}
+  </style>
+</head>
+<body>
+<h1>水平垂直居中的几种方式</h1>
+<h2>【思路一】text-align + line-height实现单行文本水平垂直居中</h2>
+<div class="test" style="background-color: lightBlue;width: 200px;">测试文字</div>
+<h2>【思路二】text-align + vertical-align</h2>
+<h3>a.父元素设为table-cell，子元素设为inline-block</h3>
+<div class="parent-2-a" style="background-color: gray; width:200px; height:100px;">
+  <div class="child-2-a" style="background-color: lightblue;">测试文字</div>
+</div>
+<h3>b.若子元素是图像 父元素line-height行高替代高度，字体大小设为0，子元素vertical-align:middle</h3>
+<div class="parent-2-b" style="background-color: gray; width:200px; ">
+  <img class="child-2-b" src="/img/cake-cheese.png" width="30%" alt="test">
+</div> 
+<h2>【思路三】margin + vertical-align</h3>
+<h3>要想在父元素中设置vertical-align，须设置为table-cell元素；要想让margin:0 auto实现水平居中的块元素内容撑开宽度，须设置为table元素</h3>
+<div class="parent-3" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-3" style="background-color: lightblue;">测试文字</div></div>
+<h2>【思路四】使用absolute</h2>
+<h3>a.利用绝对定位元素的盒模型特性，在偏移属性为确定值的基础上，设置margin:auto</h3>
+<div class="parent-4-a" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-4-a" style="background-color: lightblue;">测试文字</div>
+</div>
+<h3>b.利用绝对定位元素的偏移属性和translate()函数的自身偏移达到水平垂直居中的效果</h3>
+<div class="parent-4-b" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-4-b" style="background-color: lightblue;">测试文字</div></div>
+<h3>c.在子元素宽高已知的情况下，可以配合margin负值达到水平垂直居中效果</h3>
+<div class="parent-4-c" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-4-c" style="background-color: lightblue;">测试文字</div></div>
+<h2>【思路五】使用flex</h2>
+<h3>在伸缩项目上使用margin:auto</h3>
+<div class="parent-5-a" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-5-a" style="background-color: lightblue;">测试文字</div></div>
+<h3>在伸缩容器上使用主轴对齐justify-content和侧轴对齐align-items</h3>
+<div class="parent-5-b" style="background-color: lightgray; width:200px; height:100px; ">
+  <div class="child-5-b" style="background-color: lightblue;">测试文字</div></div> 
+</body>
+</html>

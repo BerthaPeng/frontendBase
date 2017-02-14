@@ -5,8 +5,11 @@ var stylus      = require('gulp-stylus');
 /*var postcss      = require('gulp-postcss');*/
 var path         = require('path');
 var argv         = require('yargs').argv;
+var gulpif       = require('gulp-if');
+var uglify       = require('gulp-uglify');
 var plumber      = require('gulp-plumber');
 var notify       = require('gulp-notify');
+var rev          = require('gulp-rev');
 var gulpSequence = require('gulp-sequence');
 var gutil        = require('gulp-util');
 var browserSync  = require('browser-sync').create();
@@ -41,13 +44,21 @@ var srcStylus = 'styles/stylus/*.styl',
     srcWatchJs = 'js/**/*.js',
     dstJs = dst + '/js',
     srcPages = 'pages/*.html',
+    srcImage = 'img/**/*.*',
+    dstImage = dst + '/img',
     srcWatchHtml = 'pages/**/*.html',
     dstHtml = path.resolve( dst , '../templates'),
     srclib =  'js/lib/*.js',
     srcPlugins = dst + '/plugins/*.js',
-    dstCss    = dst + '/css/';
+    dstCss    = dst + '/css/',
+    srcRev  = 'rev/*.json',
+    dstRev = 'rev';
 
 
+//rev, 测试环境下，不生成版本号文件，阻止版本号生效
+var ifRev = function(){
+  return gulpif(!DEV, rev.apply(null, Array.prototype.slice.call(arguments)))
+};
 
 var onError = function (err) {
   notify.onError({
@@ -69,13 +80,14 @@ gulp.task('stylus', function() {
   return (
     gulp.src(srcStylus)
       .pipe(plumber({errorHandler: onError}))
-      .pipe(stylus())
+      .pipe(stylus({compress: !DEV}))
       /*.pipe(rucksack({fallbacks: true})) //一系列postcss处理*/
 /*      .pipe(postcss([
         require('postcss-triangle'), //三角形
         require('autoprefixer')({ browsers: ['last 2 versions', '> 1%', 'ie 8-11'] }),
         require('postcss-csso')({restructure: false}) //css去重，压缩
        ]))*/
+      .pipe(rev.manifest('stylus.json'))
       .pipe(gulp.dest(dstCss))
   )
 });
@@ -83,6 +95,7 @@ gulp.task('stylus', function() {
 gulp.task('lib-script', function(){
   return (
     gulp.src(srclib)
+      .pipe(uglify())
       .pipe(gulp.dest(path.join(dst, 'lib')))
     )
 });
@@ -114,6 +127,13 @@ gulp.task('script', function(){
       .pipe(gulp.dest(dstExampleJs))
     )*/
 });
+
+gulp.task('imgmin', function(){
+  return (
+    gulp.src(srcImage)
+      .pipe(gulp.dest(dstImage))
+    )
+})
 
 gulp.task('html', function(){
   return (
@@ -152,7 +172,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', gulpSequence(
-  'clean', 'stylus', 'lib-script', 'script','html', ['server','watch']
+  'clean', 'stylus', 'imgmin' , 'lib-script', 'script','html', ['server','watch']
   ))
 
 //发布production版
